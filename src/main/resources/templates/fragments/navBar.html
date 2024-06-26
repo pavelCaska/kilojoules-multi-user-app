@@ -1,0 +1,42 @@
+<div xmlns:th="http://www.thymeleaf.org/">
+    <div class="container-fluid" th:fragment="navBarFragment">
+        <div class="navbar-brand">NuttyTracker</div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a sec:authorize="hasAuthority('ROLE_USER')" class="nav-link active" aria-current="page" th:href="@{/journal}">Journal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/food}">Food list</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasAuthority('ROLE_USER')" class="nav-link" th:href="@{/meal}">My meals</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasAuthority('ROLE_ADMIN')" class="nav-link" th:href="@{/admin/list-users}">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="hasAuthority('ROLE_ADMIN')" class="nav-link" th:href="@{/admin/list-admins}">Admins</a>
+                </li>
+            </ul>
+        </div>
+        <div class="" id="userIdentity">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a th:if="${user.firstName != null && user.lastName != null}"
+                       th:text="${user.firstName+' '+user.lastName}"
+                       class="nav-link" th:href="@{/user/profile}">Full name</a>
+                </li>
+                <li class="nav-item">
+                    <a th:unless="${user.firstName != null && user.lastName != null}" th:text="${username}"
+                       class="nav-link" th:href="@{/user/profile}">Username</a>
+                </li>
+            </ul>
+        </div>
+        <a class="navbar-brand btn btn-secondary" th:href="@{/logout}">Logout</a>
+    </div>
+</div>

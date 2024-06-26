@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <title>Users</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:insert="~{fragments/navBar :: navBarFragment}">
+    </nav>
+    <div class="container p-3 my-5">
+        <h1 class="display-5 border-bottom"
+            th:text="'Listing users'">Listing users</h1>
+
+        <div th:insert="~{fragments/messages :: messagesFragment}"></div>
+
+        <div class="table-responsive-xxl">
+            <table class="table table-hover table-striped">
+                <thead class="table-secondary">
+                <tr>
+                    <th class="col-right">Id</th>
+                    <th class="col-center">userCreatedAt</th>
+                    <th class="col-center">userUpdatedAt</th>
+                    <th class="col-center">Username</th>
+                    <th class="col-center">First name</th>
+                    <th class="col-center">Last name</th>
+                    <th class="col-center">Email</th>
+                    <th class="col-center">City</th>
+                    <th class="col-center">Country</th>
+                    <th class="col-center">profileCreatedAt</th>
+                    <th class="col-center">profileUpdatedAt</th>
+                    <th class="col-center"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${users}">
+                    <td><a th:href="@{'/user/' + ${entry.userId} + '/profile'}" th:text="${entry.userId}">username</a></td>
+                    <td class="fit-content" th:text="${#dates.format(entry.userCreatedAt, 'dd.MM.yyyy HH:mm:ss')}">userCreatedAt</td>
+                    <td class="fit-content" th:text="${#dates.format(entry.userUpdatedAt, 'dd.MM.yyyy HH:mm:ss')}">userUpdatedAt</td>
+                    <td><a th:href="@{'/user/' + ${entry.userId} + '/profile'}" th:text="${entry.username}">username</a></td>
+                    <td class="col-left" th:text="${entry.firstName}" >firstName</td>
+                    <td class="col-left" th:text="${entry.lastName}" >lastName</td>
+                    <td class="col-left" th:text="${entry.email}" >email</td>
+                    <td class="col-left" th:text="${entry.city}" >city</td>
+                    <td class="col-left" th:text="${entry.country}" >country</td>
+                    <td class="fit-content" th:text="${#dates.format(entry.profileCreatedAt, 'dd.MM.yyyy HH:mm:ss')}">profileCreatedAt</td>
+                    <td class="fit-content" th:text="${#dates.format(entry.profileUpdatedAt, 'dd.MM.yyyy HH:mm:ss')}">profileUpdatedAt</td>
+                    <td class="col-right">
+                        <form th:action="@{/user/{userId}/delete(userId=${entry.userId})}"
+                              th:method="post">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
